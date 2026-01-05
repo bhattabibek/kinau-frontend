@@ -32,21 +32,30 @@ const Cart = () => {
   const carts = useSelector((state: RootState) => state.carts.carts);
 
   // Calculate totals
-  const totalPrice = carts?.reduce(
-    (sum: number, item: any) => sum + item.price * item.quantity,
-    0
-  );
+  const totalPrice =
+    carts?.reduce(
+      (sum: number, item: any) => sum + item.price * item.quantity,
+      0
+    ) ?? 0;
   const handelPlaceOrder = async () => {
     try {
       if (!shippingAddress) {
         return toast.error("Shipping address required.");
       }
-      const orderItems = carts.map((item) => ({
-        product: item.product,
-        quantity: item.quantity,
-        price: item.price,
-        variant: item.variant._id,
-      }));
+      const orderItems = carts.map((item) => {
+        const payload: any = {
+          product: item.productId ?? item.product,
+          quantity: item.quantity,
+          price: item.price,
+        };
+
+        if (item.variant?._id) {
+          // Send variant only when present to avoid backend validation errors
+          payload.variant = item.variant._id;
+        }
+
+        return payload;
+      });
       const result = await dispatch(
         addToCartThunk({ items: orderItems, totalAmount: totalPrice })
       );
