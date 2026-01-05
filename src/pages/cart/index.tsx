@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [showAddress, setShowAddress] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [shippingAddress, setShippingAddress] = useState<any>(null);
   const [paymentMethod, setPaymentMethod] = useState<"COD" | "Online">("COD");
@@ -69,9 +68,10 @@ const Cart = () => {
     console.log("Address submitted:", data);
     const result = await dispatch(createShippingAddress(data));
     if (createShippingAddress.fulfilled.match(result)) {
-      toast.success("address added");
+      setShippingAddress(result.payload);
+      toast.success("Address saved");
+      setShowModal(false);
     }
-    setShowModal(false);
   };
 
   const handleRemoveFromCart = async (productId: string) => {
@@ -197,41 +197,23 @@ const Cart = () => {
               <p className="text-gray-500">No address found</p>
             )}
             <button
-              onClick={() => setShowAddress(!showAddress)}
+              onClick={() => setShowModal(true)}
               className="text-indigo-500 hover:underline cursor-pointer"
             >
               Change
             </button>
-            {showAddress && (
-              <>
-                <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full z-10">
-                  <p
-                    onClick={() => setShowAddress(false)}
-                    className="text-gray-500 p-2 hover:bg-gray-100 cursor-pointer"
+            {showModal && (
+              <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
                   >
-                    New York, USA
-                  </p>
-                  <p
-                    onClick={() => setShowModal(true)}
-                    className="text-indigo-500 text-center cursor-pointer p-2 hover:bg-indigo-500/10"
-                  >
-                    Add address
-                  </p>
+                    ✕
+                  </button>
+                  <AddressForm onSubmit={handleAddAddress} />
                 </div>
-                {showModal && (
-                  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
-                      <button
-                        onClick={() => setShowModal(false)}
-                        className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
-                      >
-                        ✕
-                      </button>
-                      <AddressForm onSubmit={handleAddAddress} />
-                    </div>
-                  </div>
-                )}
-              </>
+              </div>
             )}
           </div>
 
