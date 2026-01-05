@@ -1,5 +1,6 @@
 // src/context/AuthContext.tsx
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import { api } from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +17,11 @@ interface IAuthContext {
   user: IUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (data: { name: string; email: string; password: string }) => Promise<void>;
+  register: (data: {
+    name: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
   logout: () => void;
 }
 
@@ -47,7 +52,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     const res = await api.post<{
-      data: { user: IUser; tokens: { accessToken: string; refreshToken: string } };
+      data: {
+        user: IUser;
+        tokens: { accessToken: string; refreshToken: string };
+      };
     }>("/auth/login", { email, password });
 
     const { accessToken, refreshToken } = res.data.data.tokens;
@@ -57,9 +65,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     navigate("/dashboard");
   };
 
-  const register = async ({ name, email, password }: { name: string; email: string; password: string }) => {
+  const register = async ({
+    name,
+    email,
+    password,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+  }) => {
     const res = await api.post<{
-      data: { user: IUser; tokens: { accessToken: string; refreshToken: string } };
+      data: {
+        user: IUser;
+        tokens: { accessToken: string; refreshToken: string };
+      };
     }>("/auth/register", {
       name,
       email,

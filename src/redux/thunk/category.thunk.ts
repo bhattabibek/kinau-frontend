@@ -30,7 +30,7 @@ export const getAllCategory = createAsyncThunk<CategoryI[],void>(
 export const deleteCategory = createAsyncThunk<string, string>("admin/deleteCategory",
     async (id,{rejectWithValue})=>{
         try {
-      const response = await api.delete(`/categories/${id}`);
+    await api.delete(`/categories/${id}`);
             return id
         } catch (error: any) {
             return rejectWithValue(error.response?.data || error.message);

@@ -4,11 +4,13 @@ import type { AppDispatch } from "@/redux/store";
 import { deleteColor, getAllColor } from "@/redux/thunk/color.thunk";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 export default function ColorList({ handleEditColor }: any) {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, colors, error } = useSelector((state: RootState) => state.color);
+  const { isLoading, colors, error } = useSelector(
+    (state: RootState) => state.color
+  );
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -20,11 +22,19 @@ export default function ColorList({ handleEditColor }: any) {
   };
 
   if (isLoading) {
-    return <p className="text-center py-8 text-gray-500 text-lg">Loading colors...</p>;
+    return (
+      <p className="text-center py-8 text-gray-500 text-lg">
+        Loading colors...
+      </p>
+    );
   }
 
   if (error) {
-    return <p className="text-red-500 text-center py-8 text-lg">Failed to load colors</p>;
+    return (
+      <p className="text-red-500 text-center py-8 text-lg">
+        Failed to load colors
+      </p>
+    );
   }
 
   // Filter colors based on search input
@@ -47,7 +57,6 @@ export default function ColorList({ handleEditColor }: any) {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
-        
         </div>
       </div>
 
@@ -58,7 +67,9 @@ export default function ColorList({ handleEditColor }: any) {
             <tr>
               <th className="p-3 text-sm font-semibold rounded-tl-xl">Name</th>
               <th className="p-3 text-sm font-semibold">Hex Code</th>
-              <th className="p-3 text-sm font-semibold rounded-tr-xl">Actions</th>
+              <th className="p-3 text-sm font-semibold rounded-tr-xl">
+                Actions
+              </th>
             </tr>
           </thead>
 

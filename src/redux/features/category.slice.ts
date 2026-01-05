@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { deleteCategory, getAllCategory } from "../thunk/category.thunk";
 import type { CategoryI } from "@/interfaces/category.interface";
-import { ActivityIcon } from "lucide-react";
 
 interface initialStateI {
   isLoading: boolean;

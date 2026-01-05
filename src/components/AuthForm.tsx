@@ -1,20 +1,21 @@
 // AuthForm.tsx
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser, registerUser } from "../redux/features/thunks";
+import { loginUser, registerUser } from "@/redux/features/thunks";
+import type { AppDispatch } from "@/redux/store";
 
 const AuthForm = () => {
-  const dispatch = useDispatch();
-  const [state, setState] = useState("login");
+  const dispatch = useDispatch<AppDispatch>();
+  const [authMode, setAuthMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (state === "login") {
+    if (authMode === "login") {
       dispatch(loginUser({ email, password }));
     } else {
       dispatch(registerUser({ firstName, lastName, email, password }));
@@ -22,49 +23,60 @@ const AuthForm = () => {
   };
 
   return (
-   <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-  <form
-    onSubmit={handleSubmit}
-    className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md space-y-4"
-  >
-    {state === "register" && (
-      <>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md space-y-4"
+      >
+        {authMode === "register" && (
+          <>
+            <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First Name"
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last Name"
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+          </>
+        )}
         <input
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          placeholder="First Name"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
           className="w-full p-2 border border-gray-300 rounded"
         />
         <input
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          placeholder="Last Name"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          type="password"
           className="w-full p-2 border border-gray-300 rounded"
         />
-      </>
-    )}
-    <input
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      placeholder="Email"
-      className="w-full p-2 border border-gray-300 rounded"
-    />
-    <input
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      placeholder="Password"
-      type="password"
-      className="w-full p-2 border border-gray-300 rounded"
-    />
-    <button
-      type="submit"
-      className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-500 transition"
-    >
-      {state === "login" ? "Login" : "Register"}
-    </button>
-  </form>
-</div>
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-500 transition"
+        >
+          {authMode === "login" ? "Login" : "Register"}
+        </button>
 
+        <button
+          type="button"
+          onClick={() =>
+            setAuthMode((prev) => (prev === "login" ? "register" : "login"))
+          }
+          className="w-full text-indigo-700 underline text-sm"
+        >
+          {authMode === "login"
+            ? "Need an account? Register"
+            : "Already have an account? Login"}
+        </button>
+      </form>
+    </div>
   );
 };
 

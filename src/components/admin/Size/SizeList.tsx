@@ -2,13 +2,15 @@
 import type { RootState } from "@/redux/root-reducer";
 import type { AppDispatch } from "@/redux/store";
 import { deleteSize, getAllSizes } from "@/redux/thunk/size.thunk";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 export default function SizeList({ handleEditSize }: any) {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, sizes, error } = useSelector((state: RootState) => state.size);
+  const { isLoading, sizes, error } = useSelector(
+    (state: RootState) => state.size
+  );
 
   useEffect(() => {
     dispatch(getAllSizes());
@@ -19,11 +21,17 @@ export default function SizeList({ handleEditSize }: any) {
   };
 
   if (isLoading) {
-    return <p className="text-center py-8 text-gray-500 text-lg">Loading sizes...</p>;
+    return (
+      <p className="text-center py-8 text-gray-500 text-lg">Loading sizes...</p>
+    );
   }
 
   if (error) {
-    return <p className="text-red-500 text-center py-8 text-lg">Failed to load sizes</p>;
+    return (
+      <p className="text-red-500 text-center py-8 text-lg">
+        Failed to load sizes
+      </p>
+    );
   }
 
   return (
@@ -31,7 +39,6 @@ export default function SizeList({ handleEditSize }: any) {
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800">Sizes</h2>
-       
       </div>
 
       {/* Table */}
@@ -41,7 +48,9 @@ export default function SizeList({ handleEditSize }: any) {
             <tr>
               <th className="p-3 text-sm font-semibold rounded-tl-xl">Code</th>
               <th className="p-3 text-sm font-semibold">Name</th>
-              <th className="p-3 text-sm font-semibold rounded-tr-xl">Actions</th>
+              <th className="p-3 text-sm font-semibold rounded-tr-xl">
+                Actions
+              </th>
             </tr>
           </thead>
 

@@ -2,9 +2,9 @@
 import type { RootState } from "@/redux/root-reducer";
 import type { AppDispatch } from "@/redux/store";
 import { deleteCategory, getAllCategory } from "@/redux/thunk/category.thunk";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 export default function CategoryList({ handleEditCategory }: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,11 +23,19 @@ export default function CategoryList({ handleEditCategory }: any) {
   };
 
   if (isLoading) {
-    return <p className="text-center py-8 text-gray-500 text-lg">Loading categories...</p>;
+    return (
+      <p className="text-center py-8 text-gray-500 text-lg">
+        Loading categories...
+      </p>
+    );
   }
 
   if (error) {
-    return <p className="text-red-500 text-center py-8 text-lg">Failed to load categories</p>;
+    return (
+      <p className="text-red-500 text-center py-8 text-lg">
+        Failed to load categories
+      </p>
+    );
   }
 
   // Filter categories by search
@@ -48,7 +56,6 @@ export default function CategoryList({ handleEditCategory }: any) {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
           />
-        
         </div>
       </div>
 
@@ -58,7 +65,9 @@ export default function CategoryList({ handleEditCategory }: any) {
           <thead className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
             <tr>
               <th className="p-3 text-sm font-semibold rounded-tl-xl">Name</th>
-              <th className="p-3 text-sm font-semibold rounded-tr-xl">Actions</th>
+              <th className="p-3 text-sm font-semibold rounded-tr-xl">
+                Actions
+              </th>
             </tr>
           </thead>
 

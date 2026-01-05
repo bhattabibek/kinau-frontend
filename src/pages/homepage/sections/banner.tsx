@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // Slide data
 const slides = [
@@ -82,9 +82,11 @@ export default function SimpleSlider() {
                   {slide.subtitle}
                 </p>
 
-                <button className="mt-6 inline-flex items-center gap-2 rounded-full
+                <button
+                  className="mt-6 inline-flex items-center gap-2 rounded-full
                                    bg-white px-8 py-3 text-sm font-medium text-black
-                                   hover:bg-gray-200 transition">
+                                   hover:bg-gray-200 transition"
+                >
                   Shop Collection
                   <span className="text-lg">→</span>
                 </button>

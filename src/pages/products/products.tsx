@@ -1,20 +1,28 @@
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import type { RootState } from "@/redux/root-reducer";
 import { getAllProducts } from "@/redux/thunk/product.thunk";
-import { Card, CardContent } from "@/components/ui/Card";
 import { getAllCategory } from "@/redux/thunk/category.thunk";
 import ProductCard from "@/components/ui/card/product-card";
 import { useSearchParams } from "react-router-dom";
 
 export default function ProductPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { products, isLoading } = useSelector((state: RootState) => state.product);
-    const{isLoading: categoryLoading, categories} = useSelector((state:RootState)=>state.categories);
+  const { products, isLoading } = useSelector(
+    (state: RootState) => state.product
+  );
+  const { isLoading: categoryLoading, categories } = useSelector(
+    (state: RootState) => state.categories
+  );
   // Filters mapped directly to backend query params
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search");
@@ -25,8 +33,6 @@ export default function ProductPage() {
   const [sort, setSort] = useState("newest");
   const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
-
-  
 
   // Fetch from backend whenever filters change
   useEffect(() => {
@@ -43,47 +49,41 @@ export default function ProductPage() {
     );
   }, [dispatch, page, limit, category, minPrice, maxPrice, sort, searchQuery]);
   useEffect(() => {
-  dispatch(getAllCategory());
-}, [dispatch]);
-
-
-    const isOutOfStock = (product: any) => product.totalStock <= 0;
+    dispatch(getAllCategory());
+  }, [dispatch]);
 
   return (
     <div className="p-10 space-y-10">
-
-
       {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Category */}
         <Select
-  value={category ?? "all"}
-  onValueChange={(v) => {
-    setPage(1);
-    setCategory(v === "all" ? undefined : v);
-  }}
->
-  <SelectTrigger>
-    <SelectValue placeholder="Category" />
-  </SelectTrigger>
+          value={category ?? "all"}
+          onValueChange={(v) => {
+            setPage(1);
+            setCategory(v === "all" ? undefined : v);
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Category" />
+          </SelectTrigger>
 
-  <SelectContent>
-    <SelectItem value="all">All</SelectItem>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
 
-    {categoryLoading ? (
-      <SelectItem value="loading" disabled>
-        Loading...
-      </SelectItem>
-    ) : (
-      categories.map((cat) => (
-        <SelectItem key={cat.id} value={cat.id}>
-          {cat.name}
-        </SelectItem>
-      ))
-    )}
-  </SelectContent>
-</Select>
-
+            {categoryLoading ? (
+              <SelectItem value="loading" disabled>
+                Loading...
+              </SelectItem>
+            ) : (
+              categories.map((cat) => (
+                <SelectItem key={cat.id} value={cat.id}>
+                  {cat.name}
+                </SelectItem>
+              ))
+            )}
+          </SelectContent>
+        </Select>
 
         {/* Sort By */}
         <Select value={sort} onValueChange={setSort}>
@@ -123,12 +123,8 @@ export default function ProductPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {products.map((product: any) => (
-            <>
-            <ProductCard product ={ product} />
-            </>
-  
-))}
-
+            <ProductCard key={product._id ?? product.id} product={product} />
+          ))}
         </div>
       )}
     </div>

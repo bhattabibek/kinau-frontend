@@ -1,11 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
-import { TiShoppingCart } from "react-icons/ti";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { fetchProductDetailsWithSlug } from "@/redux/thunk/product.thunk";
 import type { AppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/features/cart.slice";
-import type { RootState } from "@/redux/root-reducer";
 import toast from "react-hot-toast";
 import { FaStar } from "react-icons/fa";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
@@ -18,8 +16,6 @@ export default function ProductDetailPage() {
   const [selectedColor, setSelectedColor] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState<number>(0);
-
-  const cart = useSelector((state: RootState) => state.carts.carts);
 
   useEffect(() => {
     (async () => {
@@ -103,7 +99,6 @@ export default function ProductDetailPage() {
   return (
     <div className="font-sans min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-
         {/* Breadcrumb */}
         <nav className="text-xs text-gray-500 mb-6">
           <ol className="flex items-center space-x-1">
@@ -111,18 +106,22 @@ export default function ProductDetailPage() {
             <li className="text-gray-300">/</li>
             <li className="hover:underline cursor-pointer">Products</li>
             <li className="text-gray-300">/</li>
-            <li className="text-gray-900 font-medium truncate max-w-xs">{product?.name}</li>
+            <li className="text-gray-900 font-medium truncate max-w-xs">
+              {product?.name}
+            </li>
           </ol>
         </nav>
 
         {/* Hero Section */}
         <div className="grid lg:grid-cols-2 gap-16">
-
           {/* Left: Images */}
           <div className="space-y-4">
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden relative">
               <img
-                src={productImages[selectedImage] || "/assets/product-placeholder.jpg"}
+                src={
+                  productImages[selectedImage] ||
+                  "/assets/product-placeholder.jpg"
+                }
                 alt={product?.name}
                 className="w-full h-[450px] object-contain transition-transform duration-500 hover:scale-105"
               />
@@ -157,10 +156,11 @@ export default function ProductDetailPage() {
 
           {/* Right: Info */}
           <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between space-y-6 text-sm">
-
             {/* Title & Rating */}
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{product?.name}</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                {product?.name}
+              </h1>
               <div className="flex items-center gap-2 mt-2">
                 {[...Array(5)].map((_, i) => (
                   <FaStar key={i} className="text-yellow-400 text-sm" />
@@ -189,11 +189,15 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Description */}
-            <p className="text-gray-700 leading-relaxed text-sm mt-2">{product?.description}</p>
+            <p className="text-gray-700 leading-relaxed text-sm mt-2">
+              {product?.description}
+            </p>
 
             {/* Color Selector */}
             <div className="space-y-1 mt-4">
-              <h4 className="font-semibold text-gray-900 text-sm">Select Color</h4>
+              <h4 className="font-semibold text-gray-900 text-sm">
+                Select Color
+              </h4>
               <div className="flex gap-2 flex-wrap">
                 {colors.map((color: any) => {
                   const available = product?.variants.some(
@@ -207,7 +211,9 @@ export default function ProductDetailPage() {
                       onClick={() => setSelectedColor(color)}
                       disabled={!available}
                       className={`w-10 h-10 rounded-full border-2 transition-all duration-300 relative ${
-                        selectedColor?._id === color._id ? "border-blue-600 scale-105 shadow-md" : "border-gray-200 hover:border-gray-400"
+                        selectedColor?._id === color._id
+                          ? "border-blue-600 scale-105 shadow-md"
+                          : "border-gray-200 hover:border-gray-400"
                       } ${!available ? "opacity-40 cursor-not-allowed" : ""}`}
                       style={{ backgroundColor: color.hexCode }}
                     >
@@ -222,7 +228,9 @@ export default function ProductDetailPage() {
 
             {/* Size Selector */}
             <div className="space-y-1 mt-4">
-              <h4 className="font-semibold text-gray-900 text-sm">Select Size</h4>
+              <h4 className="font-semibold text-gray-900 text-sm">
+                Select Size
+              </h4>
               <div className="flex gap-2 flex-wrap">
                 {sizes.map((size: any) => {
                   const available = product?.variants.some(
@@ -239,7 +247,11 @@ export default function ProductDetailPage() {
                         selectedSize?._id === size._id
                           ? "bg-blue-50 border-2 border-blue-500 text-blue-700 font-bold shadow"
                           : "bg-white border-2 border-gray-200 hover:border-gray-300"
-                      } ${!available ? "opacity-40 cursor-not-allowed bg-gray-100" : ""}`}
+                      } ${
+                        !available
+                          ? "opacity-40 cursor-not-allowed bg-gray-100"
+                          : ""
+                      }`}
                     >
                       {size.name}
                     </button>
@@ -268,15 +280,23 @@ export default function ProductDetailPage() {
 
             {/* Product Highlights */}
             <div className="mt-6 border-t border-gray-200 pt-4 space-y-1">
-              <h4 className="font-bold text-gray-900 text-sm">Product Highlights</h4>
+              <h4 className="font-bold text-gray-900 text-sm">
+                Product Highlights
+              </h4>
               <ul className="space-y-1 text-xs">
-                {["Premium quality materials", "Eco-friendly manufacturing", "100% satisfaction guarantee"].map(
-                  (h, idx) => (
-                    <li key={idx} className="flex items-center gap-1 text-gray-700">
-                      <IoCheckmarkCircleSharp className="text-green-500 text-sm" /> {h}
-                    </li>
-                  )
-                )}
+                {[
+                  "Premium quality materials",
+                  "Eco-friendly manufacturing",
+                  "100% satisfaction guarantee",
+                ].map((h, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-1 text-gray-700"
+                  >
+                    <IoCheckmarkCircleSharp className="text-green-500 text-sm" />{" "}
+                    {h}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

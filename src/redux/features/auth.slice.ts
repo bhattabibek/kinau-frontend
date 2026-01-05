@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser, logoutUser, profile, registerUser } from "./thunks";
 import type { authI } from "@/interfaces/auth.interface";
-import { Satellite } from "lucide-react";
 
 interface initialStateI {
   isLoading: boolean;

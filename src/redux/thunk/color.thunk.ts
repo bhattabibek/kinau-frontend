@@ -43,7 +43,7 @@ export const deleteColor = createAsyncThunk<any, any>(
     "admin/deleteColor",
     async(id,{rejectWithValue})=>{
         try {
-            const response = await api.delete(`/colors/${id}`);
+            await api.delete(`/colors/${id}`);
             return id;
         } catch (error: any) {
             return rejectWithValue(error.response?.data || error.message);

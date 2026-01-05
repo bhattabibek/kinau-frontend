@@ -8,32 +8,32 @@ import { useDispatch } from "react-redux";
 interface CategoryFormProps {
   initialData?: { id: string; name: string } | null;
 }
-interface CategoryData{
-  name:string;
-}
 
 export default function CategoryForm({ initialData }: CategoryFormProps) {
   const dispatch = useDispatch<any>();
   const [name, setName] = useState(initialData?.name || "");
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const resultAction = await dispatch(createCategory({name}))
-      if(createCategory.fulfilled.match(resultAction)) {
-        dispatch(addCategories(resultAction.payload))
-        toast.success("category created")
-      }else {
-        console.error("Failed to create category:", resultAction)
+      const resultAction = await dispatch(createCategory({ name }));
+      if (createCategory.fulfilled.match(resultAction)) {
+        dispatch(addCategories(resultAction.payload));
+        toast.success("category created");
+      } else {
+        console.error("Failed to create category:", resultAction);
       }
     } catch (error: any) {
-      console.log("Failed:", error)
+      console.log("Failed:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded-2xl shadow mb-6 space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-4 rounded-2xl shadow mb-6 space-y-4"
+    >
       <h2 className="text-xl font-semibold">ADD and Edit Category</h2>
 
       <div>
@@ -46,7 +46,10 @@ export default function CategoryForm({ initialData }: CategoryFormProps) {
         />
       </div>
 
-      <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
+      <button
+        type="submit"
+        className="bg-green-500 text-white px-4 py-2 rounded"
+      >
         Save
       </button>
     </form>

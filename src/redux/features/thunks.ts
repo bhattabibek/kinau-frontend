@@ -3,6 +3,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "@/api/axios"; // your axios instance
 import type { authI } from "@/interfaces/auth.interface";
 
+type RegisterData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
+
 // Login thunk
 export const loginUser = createAsyncThunk<authI, any>(
   "auth/loginUser",

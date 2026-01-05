@@ -1,7 +1,5 @@
-import type { wishlistI } from "@/interfaces/wishlists.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import { addToWishList, getWishList, getWishlistCount, removeFromWishlist } from "../thunk/wishlist.thunk";
-import type { productI } from "@/interfaces/product.interface";
 
 interface initialStateI {
   isLoading: boolean;

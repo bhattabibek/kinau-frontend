@@ -1,5 +1,3 @@
-import React from "react";
-
 function Dashboard() {
   const user = {
     name: "Bibek Bhatta",
@@ -17,7 +15,10 @@ function Dashboard() {
       {/* Main Content */}
       <main className="max-w-2xl mx-auto space-y-5 px-10 py-10 rounded-3xl">
         {/* Top Navbar */}
-        <div style={{ boxShadow: "0 0 10px rgba(0, 0, 0, 0.15)" }} className="flex justify-between items-center bg-white  shadow-md rounded-4xl px-6 py-4">
+        <div
+          style={{ boxShadow: "0 0 10px rgba(0, 0, 0, 0.15)" }}
+          className="flex justify-between items-center bg-white  shadow-md rounded-4xl px-6 py-4"
+        >
           <h1 className="text-3xl font-semibold text-gray-800">
             Welcome, {user.name}
           </h1>
@@ -25,7 +26,6 @@ function Dashboard() {
             src="https://i.pravatar.cc/40"
             alt="User"
             className="w-10 h-10 rounded-full border border-gray-300"
-          
           />
         </div>
 

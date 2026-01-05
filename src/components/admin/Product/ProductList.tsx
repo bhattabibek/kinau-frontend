@@ -1,9 +1,12 @@
 // components/admin/Product/ProductList.tsx
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteProduct, getAllProductsWithPagination } from "@/redux/thunk/product.thunk";
+import {
+  deleteProduct,
+  getAllProductsWithPagination,
+} from "@/redux/thunk/product.thunk";
 import type { AppDispatch } from "@/redux/store";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 export default function ProductList({ handleEditProduct }: any) {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,7 +20,9 @@ export default function ProductList({ handleEditProduct }: any) {
     (async () => {
       try {
         setLoading(true);
-        const result = await dispatch(getAllProductsWithPagination({ page, limit }));
+        const result = await dispatch(
+          getAllProductsWithPagination({ page, limit })
+        );
         if (getAllProductsWithPagination.fulfilled.match(result)) {
           setProducts(result.payload.data);
           setPagination(result.payload.pagination);
@@ -35,7 +40,11 @@ export default function ProductList({ handleEditProduct }: any) {
   };
 
   if (loading) {
-    return <p className="text-center py-12 text-gray-500 text-lg">Loading products...</p>;
+    return (
+      <p className="text-center py-12 text-gray-500 text-lg">
+        Loading products...
+      </p>
+    );
   }
 
   return (
@@ -43,7 +52,6 @@ export default function ProductList({ handleEditProduct }: any) {
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800">Products</h2>
-        
       </div>
 
       {/* Table */}
@@ -56,7 +64,9 @@ export default function ProductList({ handleEditProduct }: any) {
               <th className="p-3 text-sm font-semibold">Category</th>
               <th className="p-3 text-sm font-semibold">Stock</th>
               <th className="p-3 text-sm font-semibold">Status</th>
-              <th className="p-3 text-sm font-semibold rounded-tr-xl">Actions</th>
+              <th className="p-3 text-sm font-semibold rounded-tr-xl">
+                Actions
+              </th>
             </tr>
           </thead>
 
@@ -72,9 +82,13 @@ export default function ProductList({ handleEditProduct }: any) {
                   </span>
                 </td>
                 <td className="p-3">
-                  <span className={`px-3 py-1 rounded-full text-sm font-semibold shadow-sm ${
-                    p.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                  }`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-semibold shadow-sm ${
+                      p.isActive
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
                     {p.isActive ? "Active" : "Inactive"}
                   </span>
                 </td>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const products = [
   {
@@ -7,8 +7,7 @@ const products = [
     brand: "Nike",
     category: "T-Shirts",
     price: 1999,
-    image:
-      "https://via.placeholder.com/200x250.png?text=Slim+Fit+T-Shirt",
+    image: "https://via.placeholder.com/200x250.png?text=Slim+Fit+T-Shirt",
   },
   {
     id: 2,
@@ -120,7 +119,9 @@ const Shop = () => {
               <div className="p-4">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p className="text-sm text-gray-500">{product.brand}</p>
-                <p className="text-primary font-bold mt-2">Rs. {product.price}</p>
+                <p className="text-primary font-bold mt-2">
+                  Rs. {product.price}
+                </p>
                 <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
                   Add to Cart
                 </button>

@@ -1,5 +1,4 @@
 import ProductCard from "@/components/ui/card/product-card";
-import React from "react";
 
 const Collection = () => {
   return (

@@ -1,5 +1,3 @@
-import React from "react";
-
 const Sidebar = () => {
   return (
     <aside className="hidden md:block w-64 bg-gray-900 text-white">

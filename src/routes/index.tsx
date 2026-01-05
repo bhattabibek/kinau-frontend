@@ -14,7 +14,6 @@ import Order from "@/pages/orders/Orders";
 import ProfilePage from "@/pages/profile/Profile";
 import ShippingAddressPage from "@/pages/ShippingAddress";
 import Wishlist from "@/pages/wishlist";
-import AuthGuard from "@/providers/auth.provider";
 
 import { Suspense } from "react";
 import { Outlet, useRoutes } from "react-router-dom";
@@ -36,7 +35,7 @@ const AppRoutes = () => {
       ),
       children: [
         { index: true, element: <HomePage /> },
-        {path: "sales", element: <MonthlyOrdersSalesChart/>},
+        { path: "sales", element: <MonthlyOrdersSalesChart /> },
         { path: "products", element: <ProductPage /> },
         { path: "about", element: <>About</> },
         { path: "collection", element: <Collection /> },
@@ -76,7 +75,7 @@ const AppRoutes = () => {
           path: "cart",
           element: (
             <Suspense fallback={<h1>Loading...</h1>}>
-                <Cart />
+              <Cart />
             </Suspense>
           ),
         },
@@ -108,20 +107,18 @@ const AppRoutes = () => {
         { path: "*", element: <>Not Found</> },
       ],
     },
-  
+
     {
-      path:"/admin",
-      element:(
+      path: "/admin",
+      element: (
         <Suspense fallback={<h1>Loading...</h1>}>
           <AdminLayout>
-            <Outlet/>
+            <Outlet />
           </AdminLayout>
         </Suspense>
       ),
-      children:[
-        {index: true, element:<AdminPage/>},
-      ]
-    }
+      children: [{ index: true, element: <AdminPage /> }],
+    },
   ]);
 
   return routes;

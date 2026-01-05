@@ -32,7 +32,7 @@ export const deleteVariant = createAsyncThunk<any, any>(
     "admin/deleteVariant",
     async(id,{rejectWithValue})=>{
         try {
-            const response = await api.delete(`/product-variants/${id}`);
+      await api.delete(`/product-variants/${id}`);
             return id;
         } catch (error: any) {
             return rejectWithValue(error.response?.data || error.message);

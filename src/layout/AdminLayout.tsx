@@ -14,7 +14,7 @@ interface LayoutProps {
 
 const AdminLayout = ({ children }: LayoutProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { me, isLoading, error } = useSelector((state: RootState) => state.auth);
+  const { isLoading, error } = useSelector((state: RootState) => state.auth);
   const [redirect, setRedirect] = useState(false);
   const [loaded, setLoaded] = useState(false); // to track profile fetch
 
