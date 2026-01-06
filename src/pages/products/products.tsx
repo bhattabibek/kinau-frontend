@@ -119,7 +119,9 @@ export default function ProductPage() {
 
       {/* Product List */}
       {isLoading ? (
-        <p>Loading...</p>
+        <p className="text-center text-gray-600">
+          Waking up server… first load may take ~30s
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {products.map((product: any) => (

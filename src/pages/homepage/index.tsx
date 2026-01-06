@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>();
-
-  const { products } = useSelector((state: RootState) => state.product);
+  const { products, isLoading } = useSelector(
+    (state: RootState) => state.product
+  );
 
   useEffect(() => {
     dispatch(getAllProducts({}));
@@ -17,18 +18,26 @@ const HomePage = () => {
   return (
     <>
       <SimpleSlider />
-      <div className="grid p-6 m-10 sm:grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-5">
-        {products.map((product) => (
-          <ProductCard product={product} />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="p-6 m-10 text-center text-gray-600">
+          Waking up server… first load may take ~30s
+        </div>
+      ) : (
+        <>
+          <div className="grid p-6 m-10 sm:grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-5">
+            {products.map((product) => (
+              <ProductCard key={product._id ?? product.id} product={product} />
+            ))}
+          </div>
 
-      <div className="grid p-6 m-10 sm:grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-5">
-        {products.map((product) => (
-          <ProductCard product={product} />
-        ))}
-        {/* <Trending /> */}
-      </div>
+          <div className="grid p-6 m-10 sm:grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-5">
+            {products.map((product) => (
+              <ProductCard key={product._id ?? product.id} product={product} />
+            ))}
+            {/* <Trending /> */}
+          </div>
+        </>
+      )}
     </>
   );
 };
