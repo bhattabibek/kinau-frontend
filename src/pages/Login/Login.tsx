@@ -15,14 +15,18 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     if (state === "login") {
       try {
         const resultAction = await dispatch(loginUser({ email, password }));
         if (loginUser.fulfilled.match(resultAction)) {
-          navigate(resultAction.payload.role === "admin" ? "/admin" : "/", { replace: true });
+          navigate(resultAction.payload.role === "admin" ? "/admin" : "/", {
+            replace: true,
+          });
         } else {
           console.error("Login failed:", resultAction.payload);
         }
@@ -30,16 +34,34 @@ const Login = () => {
         console.error("Login error:", err);
       }
     } else {
-      dispatch(registerUser({ firstName, lastName, email, password }));
+      if (!/[A-Z]/.test(password) || !/\d/.test(password)) {
+        setError(
+          "Password must include at least one uppercase letter and one number."
+        );
+        return;
+      }
+      try {
+        const resultAction = await dispatch(
+          registerUser({ firstName, lastName, email, password })
+        );
+        if (registerUser.fulfilled.match(resultAction)) {
+          setState("login");
+          setPassword("");
+        } else {
+          console.error("Registration failed:", resultAction.payload);
+        }
+      } catch (err) {
+        console.error("Registration error:", err);
+      }
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       {/* Card Container */}
-      <div className="flex w-full max-w-4xl shadow-2xl rounded-3xl overflow-hidden">
+      <div className="flex flex-col lg:flex-row w-full lg:max-w-4xl shadow-2xl rounded-3xl overflow-hidden">
         {/* Left Image Box */}
-        <div className="w-1/2">
+        <div className="lg:w-1/2">
           <img
             src="/assets/shop.jpg" // Replace with your image path
             alt="Login Visual"
@@ -48,7 +70,7 @@ const Login = () => {
         </div>
 
         {/* Right Login Form */}
-        <div className="w-1/2 bg-white p-10 flex flex-col justify-center">
+        <div className="lg:w-1/2 bg-white p-10 flex flex-col justify-center">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Header */}
             <div className="text-center">
@@ -61,6 +83,10 @@ const Login = () => {
                   : "Register to start shopping with us"}
               </p>
             </div>
+
+            {error && (
+              <p className="text-sm text-red-600 text-center">{error}</p>
+            )}
 
             {/* Register Fields */}
             {state === "register" && (
@@ -112,7 +138,10 @@ const Login = () => {
                 <>
                   Don’t have an account?{" "}
                   <span
-                    onClick={() => setState("register")}
+                    onClick={() => {
+                      setState("register");
+                      setError("");
+                    }}
                     className="cursor-pointer font-medium text-teal-900 hover:underline"
                   >
                     Register
@@ -122,7 +151,10 @@ const Login = () => {
                 <>
                   Already have an account?{" "}
                   <span
-                    onClick={() => setState("login")}
+                    onClick={() => {
+                      setState("login");
+                      setError("");
+                    }}
                     className="cursor-pointer font-medium text-teal-900 hover:underline"
                   >
                     Login

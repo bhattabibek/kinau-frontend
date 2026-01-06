@@ -38,13 +38,19 @@ export const registerUser = createAsyncThunk<authI, RegisterData>(
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.post("/auth/register", data);
+      const accessToken =
+        response.data.data?.tokens?.accessToken || response.data.tokens?.accessToken;
+      const refreshToken =
+        response.data.data?.tokens?.refreshToken || response.data.tokens?.refreshToken;
 
-      const token = response.data.tokens?.accessToken;
-      if (!token) throw new Error("No access token returned");
+      if (!accessToken) throw new Error("No access token returned");
+      if (!refreshToken) throw new Error("No refresh token returned");
 
-      localStorage.setItem("token", token);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
 
-      return response.data.user as authI;
+      const user = response.data.data?.user || response.data.user;
+      return user as authI;
     } catch (err: any) {
       return rejectWithValue(err.response?.data || err.message);
     }

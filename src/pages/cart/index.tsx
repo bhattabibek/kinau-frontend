@@ -89,16 +89,20 @@ const Cart = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row py-16 max-w-6xl w-full px-6 mx-auto">
+    <div className="flex flex-col md:flex-row py-12 md:py-16 max-w-6xl w-full px-4 md:px-6 mx-auto gap-10 md:gap-6">
       {/* Left - Cart Items */}
-      <div className="flex-1 max-w-4xl">
-        <h1 className="text-3xl font-medium mb-6">
-          Shopping Cart{" "}
-          <span className="text-sm text-indigo-500">{carts?.length} Items</span>
+      <div className="flex-1 max-w-4xl w-full">
+        <h1 className="text-2xl md:text-3xl font-medium mb-6 flex items-center justify-between">
+          <span>
+            Shopping Cart{" "}
+            <span className="text-sm text-indigo-500">
+              {carts?.length} Items
+            </span>
+          </span>
         </h1>
 
         {/* Header */}
-        <div className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">
+        <div className="hidden md:grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">
           <p className="text-left">Product Details</p>
           <p className="text-center">Subtotal</p>
           <p className="text-center">Action</p>
@@ -107,7 +111,7 @@ const Cart = () => {
         {carts?.map((product, index) => (
           <div
             key={index}
-            className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-3"
+            className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-4 pb-4 border-b border-gray-100"
           >
             <div className="flex items-center md:gap-6 gap-3">
               <div className="cursor-pointer w-24 h-24 flex items-center justify-center border border-gray-300 rounded overflow-hidden">
@@ -146,32 +150,39 @@ const Cart = () => {
               </div>
             </div>
 
-            <p className="text-center">${product.price * product.quantity}</p>
-
-            <button
-              onClick={() => handleRemoveFromCart(product.productId)}
-              className="cursor-pointer mx-auto"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            <div className="flex md:block justify-between w-full md:w-auto md:text-center mt-3 md:mt-0">
+              <p className="font-semibold text-gray-900 md:text-center">
+                ${product.price * product.quantity}
+              </p>
+              <button
+                onClick={() => handleRemoveFromCart(product.productId)}
+                className="cursor-pointer md:mx-auto text-red-500 hover:text-red-600"
               >
-                <path
-                  d="m12.5 7.5-5 5m0-5 5 5m5.833-2.5a8.333 8.333 0 1 1-16.667 0 8.333 8.333 0 0 1 16.667 0"
-                  stroke="#FF532E"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m12.5 7.5-5 5m0-5 5 5m5.833-2.5a8.333 8.333 0 1 1-16.667 0 8.333 8.333 0 0 1 16.667 0"
+                    stroke="#FF532E"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         ))}
 
-        <button className="group cursor-pointer flex items-center mt-8 gap-2 text-indigo-500 font-medium">
+        <button
+          type="button"
+          onClick={() => navigate("/products")}
+          className="group cursor-pointer flex items-center mt-8 gap-2 text-indigo-500 font-medium"
+        >
           <svg
             width="15"
             height="11"
@@ -192,7 +203,7 @@ const Cart = () => {
       </div>
 
       {/* Right - Order Summary */}
-      <div className="max-w-[360px] w-full bg-gray-100/40 p-5 max-md:mt-16 border border-gray-300/70">
+      <div className="max-w-full md:max-w-[360px] w-full bg-gray-100/60 p-5 max-md:mt-4 border border-gray-300/70">
         <h2 className="text-xl md:text-xl font-medium">Order Summary</h2>
         <hr className="border-gray-300 my-5" />
 
